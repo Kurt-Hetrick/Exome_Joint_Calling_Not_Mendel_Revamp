@@ -15,6 +15,8 @@ CORE_PATH=$7
 PROJECT=$8
 PREFIX=$9
 
+START_REFINE_GT=`date '+%s'`
+
 CMD=$JAVA_1_7'/java -jar'
 CMD=$CMD' '$GATK_DIR_NIGHTLY'/GenomeAnalysisTK.jar'
 CMD=$CMD' -T CalculateGenotypePosteriors'
@@ -26,6 +28,13 @@ CMD=$CMD' --disable_auto_index_creation_and_locking_when_reading_rods'
 CMD=$CMD' -et NO_ET'
 CMD=$CMD' -K '$KEY
 CMD=$CMD' -o '$CORE_PATH'/'$PROJECT'/TEMP/'$PREFIX'.BEDsuperset.VQSR.1KG.ExAC3.REFINED.temp.vcf'
+
+END_REFINE_GT=`date '+%s'`
+
+HOSTNAME=`hostname`
+
+echo $PROJECT",H01,REFINE_GT,"$HOSTNAME","$START_REFINE_GT","$END_REFINE_GT \
+>> $CORE_PATH/$PROJECT/REPORTS/$PROJECT".WALL.CLOCK.TIMES.csv"
 
 echo $CMD >> $CORE_PATH/$PROJECT/command_lines.txt
 echo >> $CORE_PATH/$PROJECT/command_lines.txt

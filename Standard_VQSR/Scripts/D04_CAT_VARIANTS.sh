@@ -4,8 +4,6 @@
 #$ -V
 #$ -p -1000
 
-START_CAT_VARIANTS=`date '+%s'`
-
 JAVA_1_7=$1
 shift
 GATK_3_3_DIR=$1
@@ -26,7 +24,7 @@ CMD=$CMD' -cp '$GATK_3_3_DIR'/GenomeAnalysisTK.jar'
 CMD=$CMD' org.broadinstitute.gatk.tools.CatVariants'
 CMD=$CMD' -R '$REF_GENOME
 CMD=$CMD' -assumeSorted'
-for VCF in $(ls $CORE_PATH/$PROJECT/MULTI_SAMPLE/$PREFIX'.SPLITTED_BED_FILE'*.vcf)
+for VCF in $(ls $CORE_PATH/$PROJECT/TEMP/AGGREGATE/$PREFIX'.SPLITTED_BED_FILE'*.vcf)
 do
   CMD=$CMD' --variant '$VCF
 done
@@ -38,5 +36,7 @@ echo $CMD | bash
 
 END_CAT_VARIANTS=`date '+%s'`
 
-echo $PROJECT",D01,CAT_VARIANTS,"$START_CAT_VARIANTS","$END_CAT_VARIANTS \
+HOSTNAME=`hostname`
+
+echo $PROJECT",D01,CAT_VARIANTS,"$HOSTNAME","$START_CAT_VARIANTS","$END_CAT_VARIANTS \
 >> $CORE_PATH/$PROJECT/REPORTS/$PROJECT".WALL.CLOCK.TIMES.csv"

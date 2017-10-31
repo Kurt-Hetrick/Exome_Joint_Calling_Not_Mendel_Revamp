@@ -13,6 +13,8 @@ CORE_PATH=$5
 PROJECT=$6
 SM_TAG=$7
 
+START_SAMPLE_PASS_BAIT_SNP=`date '+%s'`
+
 CMD=$JAVA_1_7'/java -jar'
 CMD=$CMD' '$GATK_DIR'/GenomeAnalysisTK.jar'
 CMD=$CMD' -T SelectVariants'
@@ -27,6 +29,13 @@ CMD=$CMD' --keepOriginalAC'
 CMD=$CMD' -selectType SNP'
 CMD=$CMD' --variant '$CORE_PATH'/'$PROJECT'/VCF/RELEASE/FILTERED_ON_BAIT/'$SM_TAG'_MS_OnBait.vcf'
 CMD=$CMD' -o '$CORE_PATH'/'$PROJECT'/SNV/RELEASE/FILTERED_ON_BAIT/'$SM_TAG'_MS_OnBait_SNV.vcf'
+
+END_SAMPLE_PASS_BAIT_SNP=`date '+%s'`
+
+HOSTNAME=`hostname`
+
+echo $PROJECT",L01,SAMPLE_PASS_BAIT_SNP,"$HOSTNAME","$START_SAMPLE_PASS_BAIT_SNP","$END_SAMPLE_PASS_BAIT_SNP \
+>> $CORE_PATH/$PROJECT/REPORTS/$PROJECT".WALL.CLOCK.TIMES.csv"
 
 echo $CMD >> $CORE_PATH/$PROJECT/command_lines.txt
 echo >> $CORE_PATH/$PROJECT/command_lines.txt

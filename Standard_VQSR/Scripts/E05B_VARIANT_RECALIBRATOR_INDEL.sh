@@ -16,6 +16,8 @@ CORE_PATH=$6
 PROJECT=$7
 PREFIX=$8
 
+START_VQSR_INDEL=`date '+%s'`
+
 CMD=$JAVA_1_7'/java -jar'
 CMD=$CMD' '$GATK_DIR'/GenomeAnalysisTK.jar'
 CMD=$CMD' -T VariantRecalibrator'
@@ -49,6 +51,13 @@ CMD=$CMD' -recalFile '$CORE_PATH'/'$PROJECT'/MULTI_SAMPLE/'$PREFIX'.HC.INDEL.rec
 CMD=$CMD' -tranchesFile '$CORE_PATH'/'$PROJECT'/MULTI_SAMPLE/'$PREFIX'.HC.INDEL.tranches'
 CMD=$CMD' --disable_auto_index_creation_and_locking_when_reading_rods'
 CMD=$CMD' -rscriptFile '$CORE_PATH'/'$PROJECT'/MULTI_SAMPLE/'$PREFIX'.HC.INDEL.R'
+
+END_VQSR_INDEL=`date '+%s'`
+
+HOSTNAME=`hostname`
+
+echo $PROJECT",E01,VQSR_INDEL,"$HOSTNAME","$START_VQSR_INDEL","$END_VQSR_INDEL \
+>> $CORE_PATH/$PROJECT/REPORTS/$PROJECT".WALL.CLOCK.TIMES.csv"
 
 echo $CMD >> $CORE_PATH/$PROJECT/command_lines.txt
 echo >> $CORE_PATH/$PROJECT/command_lines.txt

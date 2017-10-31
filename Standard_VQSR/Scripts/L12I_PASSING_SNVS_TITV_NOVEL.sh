@@ -15,6 +15,8 @@ PROJECT=$7
 SM_TAG=$8
 TITV_BED=$9
 
+START_NOVEL_SNV_TITV=`date '+%s'`
+
 CMD=$JAVA_1_7'/java -jar'
 CMD=$CMD' '$GATK_DIR'/GenomeAnalysisTK.jar'
 CMD=$CMD' -T SelectVariants'
@@ -30,6 +32,13 @@ CMD=$CMD' -L '$TITV_BED
 CMD=$CMD' --discordance '$KNOWN_SNPS
 CMD=$CMD' -selectType SNP'
 CMD=$CMD' -o '$CORE_PATH'/'$PROJECT'/TEMP/'$SM_TAG'.Release.Novel.TiTv.vcf'
+
+END_NOVEL_SNV_TITV=`date '+%s'`
+
+HOSTNAME=`hostname`
+
+echo $PROJECT",L01,NOVEL_SNV_TITV,"$HOSTNAME","$START_NOVEL_SNV_TITV","$END_NOVEL_SNV_TITV \
+>> $CORE_PATH/$PROJECT/REPORTS/$PROJECT".WALL.CLOCK.TIMES.csv"
 
 echo $CMD >> $CORE_PATH/$PROJECT/command_lines.txt
 echo >> $CORE_PATH/$PROJECT/command_lines.txt
