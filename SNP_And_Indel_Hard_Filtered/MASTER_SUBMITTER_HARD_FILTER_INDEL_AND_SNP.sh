@@ -37,7 +37,7 @@ ExAC="/isilon/sequencing/ExAC/Release_0.3/ExAC.r0.3.sites.vep.vcf.gz"
 KNOWN_SNPS=/isilon/sequencing/GATK_resource_bundle/2.8/b37/dbsnp_138.b37.excluding_sites_after_129.vcf
 VERACODE_CSV=/isilon/sequencing/CIDRSeqSuiteSoftware/resources/Veracode_hg18_hg19.csv
 
-QUEUE_LIST=`qstat -f -s r | egrep -v "^[0-9]|^-|^queue" | cut -d @ -f 1 | sort | uniq | egrep -v "bigmem.q|all.q|cgc.q|programmers.q" | datamash collapse 1 | awk '{print "-q",$1}'`
+QUEUE_LIST=`qstat -f -s r | egrep -v "^[0-9]|^-|^queue" | cut -d @ -f 1 | sort | uniq | egrep -v "bigmem.q|all.q|cgc.q|programmers.q|uhoh.q|rhel7.q|lemon.q" | datamash collapse 1 | awk '{print "-q",$1}'`
 
 ############################################################################
 #################Start of Combine Gvcf Functions############################
@@ -60,15 +60,14 @@ PROJECT_BAIT_BED=${PROJECT_INFO_ARRAY[3]}
 }
 
 CREATE_GVCF_LIST(){
-TOTAL_SAMPLES=(`awk 'BEGIN{FS=","} NR>1{print $1,$8}' $SAMPLE_SHEET \
-| sort \
-| uniq \
-| wc -l`)
+TOTAL_SAMPLES=(`awk 'BEGIN{FS=","} NR>1{print $1,$8}' $SAMPLE_SHEET | sort | uniq | wc -l`)
 
 awk 'BEGIN{FS=","} NR>1{print $1,$8}' $SAMPLE_SHEET \
 | sort \
 | uniq \
-| awk 'BEGIN{OFS="/"}{print "'$CORE_PATH'",$1,"GVCF",$2".genome.vcf"}' \
+| awk 'BEGIN{OFS="/"}{print "ls " "'$CORE_PATH'",$1,"GVCF",$2".genome.vcf*"}' \
+| bash \
+| egrep -v "idx|tbi" \
 >| $CORE_PATH'/'$PROJECT'/'$TOTAL_SAMPLES'.samples.gvcf.list'
 
 GVCF_LIST=(`echo $CORE_PATH'/'$PROJECT'/'$TOTAL_SAMPLES'.samples.gvcf.list'`)
