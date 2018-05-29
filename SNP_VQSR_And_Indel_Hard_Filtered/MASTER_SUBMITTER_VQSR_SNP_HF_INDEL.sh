@@ -11,10 +11,10 @@ fi
 
 ##############FIXED DIRECTORIES###############
 
-SCRIPT_DIR="/isilon/sequencing/Kurt/GIT_REPO/VITO/Exome_Joint_Calling_Not_Mendel_Revamp/SNP_VQSR_And_Indel_Hard_Filtered/Scripts/"
+SCRIPT_DIR="/mnt/research/tools/LINUX/00_GIT_REPO_KURT/Exome_Joint_Calling_Not_Mendel_Revamp/SNP_VQSR_And_Indel_Hard_Filtered/Scripts/"
 JAVA_1_7="/isilon/sequencing/Kurt/Programs/Java/jdk1.7.0_25/bin"
 JAVA_1_8="/isilon/sequencing/Kurt/Programs/Java/jdk1.8.0_73/bin"
-CORE_PATH="/isilon/sequencing/Seq_Proj/"
+CORE_PATH="/mnt/research/active"
 BEDTOOLS_DIR="/isilon/sequencing/Kurt/Programs/PATH"
 GATK_DIR="/isilon/sequencing/CIDRSeqSuiteSoftware/gatk/GATK_3/GenomeAnalysisTK-3.3-0"
 GATK_3_1_1_DIR="/isilon/sequencing/CIDRSeqSuiteSoftware/gatk/GATK_3/GenomeAnalysisTK-3.1-1"
@@ -38,7 +38,7 @@ ExAC="/isilon/sequencing/ExAC/Release_0.3/ExAC.r0.3.sites.vep.vcf.gz"
 KNOWN_SNPS=/isilon/sequencing/GATK_resource_bundle/2.8/b37/dbsnp_138.b37.excluding_sites_after_129.vcf
 VERACODE_CSV=/isilon/sequencing/CIDRSeqSuiteSoftware/resources/Veracode_hg18_hg19.csv
 
-QUEUE_LIST=`qstat -f -s r | egrep -v "^[0-9]|^-|^queue" | cut -d @ -f 1 | sort | uniq | egrep -v "bigmem.q|all.q|cgc.q|programmers.q|uhoh.q|rhel7.q|lemon.q" | datamash collapse 1 | awk '{print "-q",$1}'`
+QUEUE_LIST=`qstat -f -s r | egrep -v "^[0-9]|^-|^queue" | cut -d @ -f 1 | sort | uniq | egrep -v "bigmem.q|all.q|cgc.q|programmers.q|rhel7.q" | datamash collapse 1 | awk '{print "-q",$1}'`
 
 ############################################################################
 #################Start of Combine Gvcf Functions############################
